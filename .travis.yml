@@ -1,4 +1,4 @@
 language: r
 install: true
 script:
-  - Rscript mutual-fund.R
+  - Rscript *.R
