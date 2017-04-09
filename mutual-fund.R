@@ -1,5 +1,5 @@
-funds <- read.csv("mutual funds.csv", header=T)
-
+funds <- read.csv("C:\\Users\\JianFeng\\Dropbox\\Year 4 Sem 2\\ST2137\\Project\\mutual-fund-analysis\\mutual funds.csv", header=T)
+attach(funds)
 # gets all variables conforming to normal distribution
 variable_columns <- vector()
 for (i in 1:length(funds)) {
@@ -39,5 +39,26 @@ for (i in 1:(var_count-1)) {
 print(correlated_vars)
 print(not_correlated_vars)
 
+bartlett.test(Return_2001, Fees)
+bartlett.test(Three_Year_Return, Fees)
+bartlett.test(Five_Year_Return, Fees)
 
+bartlett.test(Return_2001, Type)
+bartlett.test(Three_Year_Return, Type)
+bartlett.test(Five_Year_Return, Type)
 
+model_2001_fees <- aov(Return_2001~Fees)
+model_3_fees <- aov(Three_Year_Return~Fees)
+model_5_fees <- aov(Five_Year_Return~Fees)
+
+model_2001_type <- aov(Return_2001~Type)
+model_3_type <- aov(Three_Year_Return~Type)
+model_5_type <- aov(Five_Year_Return~Type)
+
+summary(model_2001_fees)
+summary(model_3_fees)
+summary(model_5_fees)
+
+summary(model_2001_type)
+summary(model_3_type)
+summary(model_5_type)
