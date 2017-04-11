@@ -1,11 +1,22 @@
-install.packages("car")
-install.packages("plyr")
+#install.packages("car")
+#install.packages("plyr")
 
 library(car)
 library(plyr)
 
-funds <- read.csv("~/Dropbox/Year 4 Sem 2/ST2137/Project/mutual funds.csv", header=T)
+funds <- read.csv("mutual funds.csv", header=T)
 attach(funds)
+print(count(Fees))
+
+
+print(mean(Three_Year_Return))
+print(mean(Five_Year_Return))
+
+for (i in 6:8) {
+  print(names(funds[i]))
+  print(quantile(funds[,i]))
+}
+
 # gets all variables conforming to normal distribution
 variable_columns <- vector()
 for (i in 1:length(funds)) {
@@ -45,7 +56,9 @@ for (i in 1:(var_count-1)) {
 print(correlated_vars)
 print(not_correlated_vars)
 
-count(funds, "Fees")
+boxplot(Return_2001 ~ Fees, main="2001 Returns against Presence of Sales Charges", xlab="Presence of Sales Charges", ylab="2001 Returns")
+boxplot(Three_Year_Return ~ Fees, main="Three Year Returns against Presence of Sales Charges", xlab="Presence of Sales Charges", ylab="Three Year Returns")
+boxplot(Five_Year_Return ~ Fees, main="Five Year Returns against Presence of Sales Charges", xlab="Presence of Sales Charges", ylab="Five Year Returns")
 
 # T-test with Welch Correction
 t.test(Return_2001 ~ Fees, data=funds, var.equal = FALSE)
@@ -54,20 +67,15 @@ t.test(Five_Year_Return ~ Fees, data=funds, var.equal = FALSE)
 
 
 # Levene's Test for Equal Variances
-leveneTest(Return_2001, Type)
-leveneTest(Three_Year_Return, Type)
-leveneTest(Five_Year_Return, Type)
+leveneTest(Return_2001, Fees)
+leveneTest(Three_Year_Return, Fees)
+leveneTest(Five_Year_Return, Fees)
 
-# One-way ANOVA without Welch Correction
-model_2001_type <- aov(Return_2001~Type)
-model_3_type <- aov(Three_Year_Return~Type)
-model_5_type <- aov(Five_Year_Return~Type)
+model_2001_fees <- t.test(Return_2001~Fees)
+model_3_fees <- t.test(Three_Year_Return~Fees)
+model_5_fees <- t.test(Five_Year_Return~Fees)
+print(model_2001_fees)
+print(model_3_fees)
+print(model_5_fees)
 
-# Summary for models
-summary(model_2001_type)
-summary(model_3_type)
-summary(model_5_type)
 
-boxplot(Return_2001 ~ Fees, main="2001 Returns against Presence of Sales Charges", xlab="Presence of Sales Charges", ylab="2001 Returns")
-boxplot(Three_Year_Return ~ Fees, main="Three Year Returns against Presence of Sales Charges", xlab="Presence of Sales Charges", ylab="Three Year Returns")
-boxplot(Five_Year_Return ~ Fees, main="Five Year Returns against Presence of Sales Charges", xlab="Presence of Sales Charges", ylab="Five Year Returns")
