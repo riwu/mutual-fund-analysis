@@ -1,5 +1,5 @@
-#install.packages("car")
-#install.packages("plyr")
+install.packages("car")
+install.packages("plyr")
 
 library(car)
 library(plyr)
